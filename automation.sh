@@ -4,7 +4,7 @@
 sudo apt-get update
 sudo apt-get install -y awscli
 
-echo "describe passed"
+echo "describe passed" 
 INSTANCE_IDS=$(aws ec2 describe-instances --filters "Name=tag:envvar,Values=dev" --query 'Reservations[*].Instances[*].InstanceId' --output text)
 
  echo "instance id is : $INSTANCE_IDS"
