@@ -1,20 +1,20 @@
-from flask import Flask
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 
-app = Flask(__name__)
+app = FastAPI()
 
-print('amardeep') 
 
-@app.route("/")
-def hello():
-    return "Hello world 4 this is fourth ecr image" 
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
 
-@app.route("/ak")
-def hello_ak():
-    return "Hello ak!4 this is fourth ecr image" 
-
-@app.route("/mk")
-def hello_mk():
-    return "Hello mk!4 this is fourth ecr image" 
-
-if __name__ == "__main__":
-    app.run()  
+@app.get("/health")
+async def health():
+    """health check for target group register fargate task"""
+    return JSONResponse(
+        content={
+            "message": "success",
+            
+        },
+        status_code=200,
+    )
