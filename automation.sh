@@ -9,7 +9,7 @@ INSTANCE_IDS=$(aws ec2 describe-instances --filters "Name=tag:envvar,Values=dev"
 
  echo "instance id is : $INSTANCE_IDS"
 
- TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:eu-west-1:851725361731:targetgroup/ec2-automation-one/9f9269d71bb09c4d'
+ TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/automation-alb-tg/28f6ebf3091af7af'
  echo "$TARGET_GROUP_ARN"
 
 for instance_id in $INSTANCE_IDS
@@ -52,7 +52,7 @@ do
         pkill 'uvicorn'
         echo "process killed"
         sleep 15
-        nohup uvicorn ap:app --host 0.0.0.0 --port 8000  --reload > /dev/null 2>&1 & exit
+        nohup uvicorn ap:app --host 0.0.0.0 --port 3000  --reload > /dev/null 2>&1 & exit
         ls -la
         echo "successfully exited"
         exit
