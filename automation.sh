@@ -48,7 +48,7 @@ do
         echo $dns_name
         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$dns_name << EOF
         sudo su -
-        lsof -n -i :8000 | grep LISTEN
+        lsof -n -i :3000 | grep LISTEN
         pkill 'uvicorn'
         echo "process killed"
         sleep 15
