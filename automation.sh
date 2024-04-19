@@ -75,7 +75,7 @@ EOF
              sleep $REGISTER_WAIT_TIME
              register_retry_count=$((retry_count + 1))
           else
-             echo "Target health is $REGISTER_HEALTH_STATUS.exiting
+             echo "Target health is $REGISTER_HEALTH_STATUS. exiting"
              exit 1
           fi
           echo "$retry_count"
