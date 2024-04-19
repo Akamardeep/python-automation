@@ -64,20 +64,21 @@ EOF
      REGISTER_MAX_RETRIES=10
      REGISTER_WAIT_TIME=10
      register_retry_count=0
-     while [ $register_retry_count -lt $REGISTER_MAX_RETRIES ]; do
-         REGSITER_HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
-         echo "$HEALTH_STATUS"
-          if [ "$HEALTH_STATUS" = "healthy" ]; then
-             echo "Target health is unused. Deregistration complete."
-             break
-          else if ["$HEALTH_STATUS" = "initial" ]; then
-             echo "Target health is $REGISTER_HEALTH_STATUS. Waiting for $REGISTER_WAIT_TIME seconds before retry..."
-             sleep $REGISTER_WAIT_TIME
-             register_retry_count=$((retry_count + 1))
-          else
-             echo "Target health is $REGISTER_HEALTH_STATUS. exiting"
-             exit 1
-          fi
-          echo "$retry_count"
-     done
+    while [ $register_retry_count -lt $REGISTER_MAX_RETRIES ]; do
+      REGISTER_HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
+      echo "$REGISTER_HEALTH_STATUS"
+    if [ "$REGISTER_HEALTH_STATUS" = "healthy" ]; then
+        echo "Target health is healthy. Deregistration complete."
+        break
+    elif [ "$REGISTER_HEALTH_STATUS" = "initial" ]; then
+        echo "Target health is $REGISTER_HEALTH_STATUS. Waiting for $REGISTER_WAIT_TIME seconds before retry..."
+        sleep $REGISTER_WAIT_TIME
+        register_retry_count=$((register_retry_count + 1))
+    else
+        echo "Target health is $REGISTER_HEALTH_STATUS. Exiting."
+        exit 1
+    fi
+    echo "$register_retry_count"
+done
+
 done
