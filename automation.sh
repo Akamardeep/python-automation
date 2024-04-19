@@ -9,7 +9,7 @@ INSTANCE_IDS=$(aws elbv2 describe-target-health --target-group-arn arn:aws:elast
  
 echo "instance id is : $INSTANCE_IDS"
  
-TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:eu-west-1:851725361731:targetgroup/ec2-automation-one/9f9269d71bb09c4d'
+TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/automation-alb-tg/28f6ebf3091af7af'
 echo "$TARGET_GROUP_ARN"
  
 for instance_id in $INSTANCE_IDS
