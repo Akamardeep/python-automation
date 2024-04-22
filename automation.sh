@@ -10,19 +10,19 @@ echo "target group arn is :$TARGET_GROUP_ARN"
  
 for target_group_arn in $TARGET_GROUP_ARN
 do
-    INSTANCE_IDS=$(aws elbv2 describe-target-health --target-group-arn $TARGET_GROUP_ARN | jq -r '.TargetHealthDescriptions[].Target.Id')
+    INSTANCE_IDS=$(aws elbv2 describe-target-health --target-group-arn $target_group_arn | jq -r '.TargetHealthDescriptions[].Target.Id')
     echo "instance id is : $INSTANCE_IDS"
     for instance_id in $INSTANCE_IDS
     do
           echo "starting deregistration process"
-          aws elbv2 deregister-targets --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id
+          aws elbv2 deregister-targets --target-group-arn $target_group_arn --targets Id=$instance_id
           # HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
           # echo "$HEALTH_STATUS"
           MAX_RETRIES=15
           WAIT_TIME=30
           retry_count=0
           while [ $retry_count -lt $MAX_RETRIES ]; do
-           HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
+           HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $target_group_arn --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
            echo "$HEALTH_STATUS"
             if [ "$HEALTH_STATUS" = "unused" ]; then
                echo "Target health is unused. Deregistration complete."
@@ -60,12 +60,12 @@ EOF
  
        sleep 5
        echo "out of ec2 instance"
-       aws elbv2 register-targets --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id
+       aws elbv2 register-targets --target-group-arn $target_group_arn --targets Id=$instance_id
        REGISTER_MAX_RETRIES=10
        REGISTER_WAIT_TIME=10
        register_retry_count=0
         while [ $register_retry_count -lt $REGISTER_MAX_RETRIES ]; do
-        REGISTER_HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
+        REGISTER_HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $target_group_arn --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
         echo "$REGISTER_HEALTH_STATUS"
       if [ "$REGISTER_HEALTH_STATUS" = "healthy" ]; then
           echo "Target health is healthy. Deregistration complete."
@@ -82,4 +82,3 @@ EOF
     done
   done    
 done
-has context menu
