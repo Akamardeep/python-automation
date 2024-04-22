@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
  
 # Install AWS CLI
 sudo apt-get update
@@ -9,7 +9,8 @@ INSTANCE_IDS=$(aws elbv2 describe-target-health --target-group-arn arn:aws:elast
  
 echo "instance id is : $INSTANCE_IDS"
  
-TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/automation-alb-tg/28f6ebf3091af7af'
+TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/automation-alb-tg/28f6ebf3091af7af arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/Automation-2-tg/3d033d2423040818'
+
 echo "$TARGET_GROUP_ARN"
  
 for instance_id in $INSTANCE_IDS
