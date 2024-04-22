@@ -33,7 +33,7 @@ do
                retry_count=$((retry_count + 1))
             fi
             echo "$retry_count"
-       done
+          done
           # if [ $retry_count -ge $MAX_RETRIES ]; then
           #      echo "Max retries reached. Exiting..."
           # fi
@@ -47,24 +47,24 @@ do
           dns_name=$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[*].Instances[*].PublicDnsName' --output text)
           echo $dns_name
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$dns_name << EOF
-          sudo su -
-          lsof -n -i :3000 | grep LISTEN
-          pkill 'uvicorn'
-          echo "process killed"
-          sleep 15
-          nohup uvicorn ap:app --host 0.0.0.0 --port 3000  --reload > /dev/null 2>&1 & exit
-          ls -la
-          echo "successfully exited"
-          exit
-    EOF
+sudo su -
+lsof -n -i :3000 | grep LISTEN
+pkill 'uvicorn'
+echo "process killed"
+sleep 15
+nohup uvicorn ap:app --host 0.0.0.0 --port 3000  --reload > /dev/null 2>&1 & exit
+ls -la
+echo "successfully exited"
+exit
+EOF
+ 
        sleep 5
        echo "out of ec2 instance"
        aws elbv2 register-targets --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id
-       # sleep 60
        REGISTER_MAX_RETRIES=10
        REGISTER_WAIT_TIME=10
        register_retry_count=0
-      while [ $register_retry_count -lt $REGISTER_MAX_RETRIES ]; do
+        while [ $register_retry_count -lt $REGISTER_MAX_RETRIES ]; do
         REGISTER_HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
         echo "$REGISTER_HEALTH_STATUS"
       if [ "$REGISTER_HEALTH_STATUS" = "healthy" ]; then
@@ -80,5 +80,5 @@ do
       fi
       echo "$register_retry_count"
     done
+  done    
 done
-    done
