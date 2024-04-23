@@ -21,7 +21,7 @@ do
            MAX_DEREGISTRATION_RETRIES: ${{ env.ENV_DEV_MAX_DEREGISTRATION_RETRIES}}
            DEREGISTRATION_WAIT_TIME: ${{ env.ENV_DEV_ DEREGISTRATION_WAIT_TIME }}
           retry_count=0
-          while [ $retry_count -lt $MAX_RETRIES ]; do
+          while [ $retry_count -lt $ MAX_DEREGISTRATION_RETRIES]; do
            HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $target_group_arn --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
            echo "$HEALTH_STATUS"
             if [ "$HEALTH_STATUS" = "unused" ]; then
@@ -29,12 +29,12 @@ do
                break
             else
                echo "Target health is $HEALTH_STATUS. Waiting for $WAIT_TIME seconds before retry..."
-               sleep $WAIT_TIME
+               sleep $DEREGISTRATION_WAIT_TIME
                retry_count=$((retry_count + 1))
             fi
             echo "$retry_count"
           done
-          # if [ $retry_count -ge $MAX_RETRIES ]; then
+          # if [ $retry_count -ge $MAX_DEREGISTRATION_RETRIES]; then
           #      echo "Max retries reached. Exiting..."
           # fi
           ls -la
@@ -64,15 +64,15 @@ EOF
        MAX_REGISTRATION_RETRIES: ${{ env.ENV_DEV_MAX_DEREGISTRATION_RETRIES}}
        REGISTRATION_WAIT_TIME: ${{ env.ENV_DEV_ DEREGISTRATION_WAIT_TIME }}
        register_retry_count=0
-        while [ $register_retry_count -lt $REGISTER_MAX_RETRIES ]; do
+        while [ $register_retry_count -lt $ MAX_REGISTRATION_RETRIES ]; do
         REGISTER_HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $target_group_arn --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
         echo "$REGISTER_HEALTH_STATUS"
       if [ "$REGISTER_HEALTH_STATUS" = "healthy" ]; then
           echo "Target health is healthy. Deregistration complete."
           break
       elif [ "$REGISTER_HEALTH_STATUS" = "initial" ]; then
-          echo "Target health is $REGISTER_HEALTH_STATUS. Waiting for $REGISTER_WAIT_TIME seconds before retry..."
-          sleep $REGISTER_WAIT_TIME
+          echo "Target health is $REGISTER_HEALTH_STATUS. Waiting for $ REGISTRATION_WAIT_TIME seconds before retry..."
+          sleep $REGISTRATION_WAIT_TIME
           register_retry_count=$((register_retry_count + 1))
       else
           echo "Target health is $REGISTER_HEALTH_STATUS. Exiting."
