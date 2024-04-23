@@ -2,7 +2,7 @@ name: Deploy to Amazon EC2
 
 on:
   push:
-    branches: [ "test-1" ]
+    branches: [ "test3" ]
 
 env:
   AWS_REGION: eu-west-1           
