@@ -18,8 +18,9 @@ do
           aws elbv2 deregister-targets --target-group-arn $target_group_arn --targets Id=$instance_id
           # HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
           # echo "$HEALTH_STATUS"
-           MAX_DEREGISTRATION_RETRIES: ${{ env.ENV_DEV_MAX_DEREGISTRATION_RETRIES}}
-           DEREGISTRATION_WAIT_TIME: ${{ env.ENV_DEV_ DEREGISTRATION_WAIT_TIME }}
+          MAX_DEREGISTRATION_RETRIES: ${{ env.ENV_DEV_MAX_DEREGISTRATION_RETRIES }}
+          DEREGISTRATION_WAIT_TIME: ${{ env.ENV_DEV_DEREGISTRATION_WAIT_TIME }}
+
           retry_count=0
           while [ $retry_count -lt $ MAX_DEREGISTRATION_RETRIES]; do
            HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $target_group_arn --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
