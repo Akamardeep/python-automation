@@ -28,8 +28,8 @@ jobs:
     - name: script process
       run: |
         ls -la
-        chmod +x ./test.sh
-        sh ./test.sh
+        chmod +x ./automation.sh
+        sh ./automation.sh
       env:
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DEREGISTRATION_WAIT_TIME: ${{ env.DEREGISTRATION_WAIT_TIME}}
