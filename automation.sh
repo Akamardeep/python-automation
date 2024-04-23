@@ -62,8 +62,8 @@ EOF
        sleep 5
        echo "out of ec2 instance"
        aws elbv2 register-targets --target-group-arn $target_group_arn --targets Id=$instance_id
-       MAX_REGISTRATION_RETRIES: ${{ env.ENV_DEV_MAX_DEREGISTRATION_RETRIES}}
-       REGISTRATION_WAIT_TIME: ${{ env.ENV_DEV_ DEREGISTRATION_WAIT_TIME }}
+       MAX_REGISTRATION_RETRIES: $MAX_REGISTRATION_RETRIES
+       REGISTRATION_WAIT_TIME: $REGISTRATION_WAIT_TIME
        register_retry_count=0
         while [ $register_retry_count -lt $ MAX_REGISTRATION_RETRIES ]; do
         REGISTER_HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $target_group_arn --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
