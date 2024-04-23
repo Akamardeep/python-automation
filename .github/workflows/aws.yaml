@@ -27,12 +27,4 @@ jobs:
 
     - name: script process
       run: |
-        ls -la
-        chmod +x ./automation.sh
-        sh ./automation.sh
-      env:
-          EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
-          DEREGISTRATION_WAIT_TIME: ${{ vars.DEREGISTRATION_WAIT_TIME}}
-          MAX_DEREGISTRATION_RETRIES: ${{ vars.MAX_DEREGISTRATION_RETRIES}}
-          MAX_REGISTRATION_RETRIES: ${{ vars.MAX_REGISTRATION_RETRIES}}
-          REGISTRATION_WAIT_TIME: ${{ vars.REGISTRATION_WAIT_TIME}}
+        echo test variable as secrete = ${{ vars.DEREGISTRATION_WAIT_TIME}}
