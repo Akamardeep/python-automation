@@ -6,7 +6,7 @@ echo "describe passed"
  
 TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/automation-alb-tg/28f6ebf3091af7af arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/automation-alb-tg-2/1da2b6af3ebcd5cf'
 echo "target group arn is :$TARGET_GROUP_ARN"
- 
+  
   
 for target_group_arn in $TARGET_GROUP_ARN
 do
