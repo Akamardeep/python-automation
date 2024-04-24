@@ -6,14 +6,18 @@ echo "describe passed"
   
 TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/automation-alb-tg/28f6ebf3091af7af arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/automation-alb-tg-2/1da2b6af3ebcd5cf'
 echo "target group arn is :$TARGET_GROUP_ARN"
- 
+ INSTANCE_COUNT=0
+  
   
 for target_group_arn in $TARGET_GROUP_ARN
 do
     INSTANCE_IDS=$(aws elbv2 describe-target-health --target-group-arn $target_group_arn | jq -r '.TargetHealthDescriptions[].Target.Id')
     echo "instance id is : $INSTANCE_IDS"
     for instance_id in $INSTANCE_IDS
-    do
+    do    
+          
+          INSTANCE_COUNT=$((INSTANCE_COUNT + 1))
+          echo "Instance count: $INSTANCE_COUNT"
           echo "starting deregistration process"
           aws elbv2 deregister-targets --target-group-arn $target_group_arn --targets Id=$instance_id
           # HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
