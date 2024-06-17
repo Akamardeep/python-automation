@@ -4,7 +4,7 @@ sudo apt-get update
 sudo apt-get install -y awscli
 echo "describe passed"
   
-TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/automation-alb-tg/28f6ebf3091af7af arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/automation-alb-tg-2/1da2b6af3ebcd5cf'
+TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:us-west-2:628725545865:targetgroup/demo-1-tg/1523c8d8f7c133c5'
 echo "target group arn is :$TARGET_GROUP_ARN"
  INSTANCE_COUNT=0
   
