@@ -5,7 +5,7 @@ on:
     branches: [ "test-4" ]
 
 env:
-  AWS_REGION: eu-west-2
+  AWS_REGION: us-west-2
   
  
 jobs:
