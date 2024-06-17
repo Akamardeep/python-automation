@@ -17,7 +17,7 @@ do
     do    
           
           INSTANCE_COUNT=$((INSTANCE_COUNT + 1))
-          echo "Instance count: $INSTANCE_COUNT"
+          echo "Instance count: $INSTANCE_COUNT" 
           echo "starting deregistration process"
           aws elbv2 deregister-targets --target-group-arn $target_group_arn --targets Id=$instance_id
           # HEALTH_STATUS=$(aws elbv2 describe-target-health --target-group-arn $TARGET_GROUP_ARN --targets Id=$instance_id | jq -r '.TargetHealthDescriptions[0].TargetHealth.State')
