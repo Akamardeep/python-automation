@@ -9,7 +9,7 @@ INSTANCE_IDS=$(aws ec2 describe-instances --filters "Name=tag:envvar,Values=dev"
 
  echo "instance id is : $INSTANCE_IDS"
 
- TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:eu-west-1:508308164161:targetgroup/automation-alb-tg/28f6ebf3091af7af'
+ TARGET_GROUP_ARN='arn:aws:elasticloadbalancing:us-west-2:628725545865:targetgroup/demo-tg-1/1686f42d31bfc249'
  echo "$TARGET_GROUP_ARN"
 
 for instance_id in $INSTANCE_IDS
@@ -48,6 +48,7 @@ do
         echo $dns_name
         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$dns_name << EOF
         sudo su -
+        source myenv/bin/activate
         lsof -n -i :3000 | grep LISTEN
         pkill 'uvicorn'
         echo "process killed"
