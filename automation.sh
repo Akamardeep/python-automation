@@ -1,6 +1,6 @@
 #!/bin/bash
 # Install AWS CLI
-sudo apt-get update
+sudo apt-get update 
 sudo apt-get install -y awscli
 echo "describe passed"
    
